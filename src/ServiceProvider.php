@@ -99,6 +99,11 @@ class ServiceProvider extends BaseServiceProvider
     ];
     
     /**
+     * 扩展图标
+     */
+    public $icon = __DIR__ . '/../logo.png';
+    
+    /**
      * 注册
      */
     public function register()
@@ -106,10 +111,44 @@ class ServiceProvider extends BaseServiceProvider
         Extension::extend('demo/demo', __CLASS__);
     }
     
+    /**
+     * 启动，只有启用后加载
+     */
     public function start()
     {
         $this->commands([
             Command\Demo::class,
         ]);
     }
+    
+    /**
+     * 安装后
+     */
+    public function install()
+    {}
+    
+    /**
+     * 卸载后
+     */
+    public function uninstall()
+    {}
+    
+    /**
+     * 更新后
+     */
+    public function upgrade()
+    {}
+    
+    /**
+     * 启用后
+     */
+    public function enable()
+    {}
+    
+    /**
+     * 禁用后
+     */
+    public function disable()
+    {}
+    
 }
