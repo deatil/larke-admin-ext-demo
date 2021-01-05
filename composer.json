@@ -1,8 +1,6 @@
 {
     "name": "demo/demo",
     "description": "The demo is a larke-admin'extension.",
-    "license": "Apache-2.0",
-    "type": "library",
     "keywords": [
         "lake",
         "larke",
@@ -11,6 +9,8 @@
         "larke-admin"
     ],
     "homepage": "https://github.com/deatil",
+    "type": "library",
+    "license": "Apache-2.0",
     "authors": [
         {
             "name": "deatil",
