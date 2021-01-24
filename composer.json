@@ -24,7 +24,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Larke\\Admin\\Demo\\": "src"
+            "Larke\\Admin\\Demo\\": ["src"]
         }
     },
     "extra" : {
