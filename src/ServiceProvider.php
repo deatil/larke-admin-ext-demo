@@ -24,10 +24,10 @@ class ServiceProvider extends BaseServiceProvider
                 'homepage' => 'http://github.com/deatil', 
             ],
         ],
-        'version' => '1.0.3',
+        'version' => '1.0.5',
         'adaptation' => '1.1.*',
         'require' => [
-            // 'extension/extension-name' => '1.0.*'
+            // 'vendor/package' => '1.0.*'
         ], // 选填
     ];
     
