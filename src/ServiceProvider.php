@@ -104,9 +104,9 @@ class ServiceProvider extends BaseServiceProvider
     public $icon = __DIR__ . '/../logo.png';
     
     /**
-     * 注册
+     * 加载
      */
-    public function register()
+    public function boot()
     {
         Extension::extend('demo/demo', __CLASS__);
     }
