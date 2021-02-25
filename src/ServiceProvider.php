@@ -8,15 +8,22 @@ use Larke\Admin\Extension\ServiceProvider as BaseServiceProvider;
 class ServiceProvider extends BaseServiceProvider
 {
     public $info = [
+        // 扩展包名
+        'name' => 'demo/demo',
+        // 扩展名称
         'title' => '示例扩展',
+        // 扩展描述
         'description' => '示例扩展描述',
+        // 扩展关键字
         'keywords' => [
             'Demo',
             'Larke',
             'Admin',
             'LarkeAdmin',
         ],
+        // 扩展主页
         'homepage' => 'http://github.com/deatil',
+        // 作者
         'authors' => [
             [
                 'name' => 'deatil', 
@@ -24,14 +31,17 @@ class ServiceProvider extends BaseServiceProvider
                 'homepage' => 'http://github.com/deatil', 
             ],
         ],
+        // 版本号
         'version' => '1.0.5',
+        // 适配系统版本
         'adaptation' => '1.1.*',
+        // 依赖扩展[选填]
         'require' => [
             // 'vendor/package' => '1.0.*'
         ], // 选填
     ];
     
-    // 配置，选填
+    // 配置[选填]
     public $config = [
         [
             'name' => 'atext',
@@ -104,15 +114,15 @@ class ServiceProvider extends BaseServiceProvider
     public $icon = __DIR__ . '/../logo.png';
     
     /**
-     * 加载
+     * 启动
      */
     public function boot()
     {
-        Extension::extend('demo/demo', __CLASS__);
+        Extension::extend($this->info['name'], __CLASS__);
     }
     
     /**
-     * 启动，只有启用后加载
+     * 开始，只有启用后加载
      */
     public function start()
     {
