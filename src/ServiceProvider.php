@@ -2,15 +2,14 @@
 
 namespace Larke\Admin\Demo;
 
-use Illuminate\Support\Facades\Event;
-
-use Larke\Admin\Event as AdminEvent;
-use Larke\Admin\Facade\Extension;
 use Larke\Admin\Extension\ServiceProvider as BaseServiceProvider;
 
 class ServiceProvider extends BaseServiceProvider
 {
-    public $info = [
+    /**
+     * 扩展信息
+     */
+    protected $info = [
         // 扩展包名
         'name' => 'demo/demo',
         // 扩展名称
@@ -37,15 +36,17 @@ class ServiceProvider extends BaseServiceProvider
         // 版本号
         'version' => '1.1.0',
         // 适配系统版本
-        'adaptation' => '1.1.*',
+        'adaptation' => '1.2.*',
         // 依赖扩展[选填]
         'require' => [
             // 'vendor/package' => '1.0.*'
         ],
     ];
     
-    // 配置[选填]
-    public $config = [
+    /**
+     * 配置[选填]
+     */
+    protected $config = [
         [
             'name' => 'atext',
             'title' => '文本',
@@ -114,14 +115,23 @@ class ServiceProvider extends BaseServiceProvider
     /**
      * 扩展图标
      */
-    public $icon = __DIR__ . '/../logo.png';
+    protected $icon = __DIR__ . '/../logo.png';
     
     /**
      * 启动
      */
     public function boot()
     {
-        Extension::extend($this->info['name'], __CLASS__);
+        // 扩展注册
+        $this->withExtension(
+            $this->info['name'], 
+            $this->withExtensionInfo(
+                __CLASS__, 
+                $this->info, 
+                $this->icon, 
+                $this->config
+            )
+        );
         
         // 事件
         $this->bootListeners();
@@ -145,51 +155,35 @@ class ServiceProvider extends BaseServiceProvider
         $thiz = $this;
         
         // 安装后
-        Event::listen(function (AdminEvent\ExtensionInstall $event) use($thiz) {
-            $name = $event->name;
-            $info = $event->info;
-            
+        $this->onInatll(function ($name, $info) use($thiz) {
             if ($name == $thiz->info["name"]) {
                 
             }
         });
         
         // 卸载后
-        Event::listen(function (AdminEvent\ExtensionUninstall $event) use($thiz) {
-            $name = $event->name;
-            $info = $event->info;
-            
+        $this->onUninstall(function ($name, $info) use($thiz) {
             if ($name == $thiz->info["name"]) {
                 
             }
         });
         
         // 更新后
-        Event::listen(function (AdminEvent\ExtensionUpgrade $event) use($thiz) {
-            $name = $event->name;
-            $oldInfo = $event->oldInfo;
-            $newInfo = $event->newInfo;
-            
+        $this->onUpgrade(function ($name, $oldInfo, $newInfo) use($thiz) {
             if ($name == $thiz->info["name"]) {
                 
             }
         });
         
         // 启用后
-        Event::listen(function (AdminEvent\ExtensionEnable $event) use($thiz) {
-            $name = $event->name;
-            $info = $event->info;
-            
+        $this->onEnable(function ($name, $info) use($thiz) {
             if ($name == $thiz->info["name"]) {
                 
             }
         });
         
         // 禁用后
-        Event::listen(function (AdminEvent\ExtensionDisable $event) use($thiz) {
-            $name = $event->name;
-            $info = $event->info;
-            
+        $this->onDisable(function ($name, $info) use($thiz) {
             if ($name == $thiz->info["name"]) {
                 
             }
