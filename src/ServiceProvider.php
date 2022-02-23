@@ -11,7 +11,7 @@ class ServiceProvider extends BaseServiceProvider
      */
     protected $info = [
         // 扩展包名
-        'name' => 'demo/demo',
+        'name' => 'larke/demo',
         // 扩展名称
         'title' => '示例扩展',
         // 扩展描述
@@ -34,9 +34,9 @@ class ServiceProvider extends BaseServiceProvider
             ],
         ],
         // 版本号
-        'version' => '1.1.0',
+        'version' => '1.3.0',
         // 适配系统版本
-        'adaptation' => '1.2.*',
+        'adaptation' => '^1.3',
         // 依赖扩展[选填]
         'require' => [
             // 'vendor/package' => '1.0.*'
