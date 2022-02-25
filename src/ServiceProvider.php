@@ -6,9 +6,8 @@ use Larke\Admin\Extension\ServiceProvider as BaseServiceProvider;
 
 class ServiceProvider extends BaseServiceProvider
 {
-    /**
-     * 扩展信息
-     */
+    /*
+    // 扩展信息
     protected $info = [
         // 扩展包名
         'name' => 'larke/demo',
@@ -37,12 +36,18 @@ class ServiceProvider extends BaseServiceProvider
         'version' => '1.3.0',
         // 适配系统版本
         'adaptation' => '^1.3',
-        // 依赖扩展[选填]
+        // 依赖扩展[选填]。用 composer.josn 时字段为 required
         'require' => [
             // 'vendor/package' => '1.0.*'
         ],
     ];
+    */
     
+    /**
+     * composer
+     */
+    public $composer = __DIR__ . '/../composer.json';
+
     /**
      * 配置[选填]
      */
@@ -123,14 +128,11 @@ class ServiceProvider extends BaseServiceProvider
     public function boot()
     {
         // 扩展注册
-        $this->withExtension(
-            $this->info['name'], 
-            $this->withExtensionInfo(
-                __CLASS__, 
-                $this->info, 
-                $this->icon, 
-                $this->config
-            )
+        $this->withExtensionFromComposer(
+            __CLASS__, 
+            $this->composer,
+            $this->icon,
+            $this->config
         );
         
         // 事件
