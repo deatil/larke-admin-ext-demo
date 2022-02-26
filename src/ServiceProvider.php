@@ -122,6 +122,9 @@ class ServiceProvider extends BaseServiceProvider
      */
     protected $icon = __DIR__ . '/../logo.png';
     
+    // 包名
+    protected $pkgName = "larke/demo";
+    
     /**
      * 启动
      */
@@ -158,35 +161,35 @@ class ServiceProvider extends BaseServiceProvider
         
         // 安装后
         $this->onInatll(function ($name, $info) use($thiz) {
-            if ($name == $thiz->info["name"]) {
+            if ($name == $thiz->pkgName) {
                 
             }
         });
         
         // 卸载后
         $this->onUninstall(function ($name, $info) use($thiz) {
-            if ($name == $thiz->info["name"]) {
+            if ($name == $thiz->pkgName) {
                 
             }
         });
         
         // 更新后
         $this->onUpgrade(function ($name, $oldInfo, $newInfo) use($thiz) {
-            if ($name == $thiz->info["name"]) {
+            if ($name == $thiz->pkgName) {
                 
             }
         });
         
         // 启用后
         $this->onEnable(function ($name, $info) use($thiz) {
-            if ($name == $thiz->info["name"]) {
+            if ($name == $thiz->pkgName) {
                 
             }
         });
         
         // 禁用后
         $this->onDisable(function ($name, $info) use($thiz) {
-            if ($name == $thiz->info["name"]) {
+            if ($name == $thiz->pkgName) {
                 
             }
         });
