@@ -20,7 +20,7 @@
         }
     ],
     "versions": "1.3.2",
-    "adaptation": "^1.3",
+    "adaptation": ">=1.3.5",
     "required": {},
     "require": {
         "php": "^8.0",
