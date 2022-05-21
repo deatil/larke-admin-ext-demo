@@ -2,7 +2,11 @@
 
 namespace Larke\Admin\Demo;
 
+use Illuminate\Support\Facades\Artisan;
+
+use Larke\Admin\Extension\Rule;
 use Larke\Admin\Extension\ServiceProvider as BaseServiceProvider;
+use Larke\Admin\Frontend\Support\Menu;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -125,6 +129,8 @@ class ServiceProvider extends BaseServiceProvider
     // 包名
     protected $pkgName = "larke/demo";
     
+    protected $slug = 'larke-admin.ext.demo';
+    
     /**
      * 启动
      */
@@ -150,6 +156,24 @@ class ServiceProvider extends BaseServiceProvider
         $this->commands([
             Command\Demo::class,
         ]);
+        
+        // 路由
+        $this->loadRoutesFrom(__DIR__ . '/../resources/route/admin.php');
+    }
+    
+    /**
+     * 推送
+     */
+    protected function assetsPublishes()
+    {
+        $this->publishes([
+            __DIR__.'/../resources/assets/demo' => public_path('extension/demo'),
+        ], 'larke-demo-assets');
+        
+        Artisan::call('vendor:publish', [
+            '--tag' => 'larke-demo-assets',
+            '--force' => true,
+        ]);
     }
     
     /**
@@ -162,36 +186,97 @@ class ServiceProvider extends BaseServiceProvider
         // 安装后
         $this->onInatll(function ($name, $info) use($thiz) {
             if ($name == $thiz->pkgName) {
-                
+                $thiz->install();
             }
         });
         
         // 卸载后
         $this->onUninstall(function ($name, $info) use($thiz) {
             if ($name == $thiz->pkgName) {
-                
+                $thiz->uninstall();
             }
         });
         
         // 更新后
         $this->onUpgrade(function ($name, $oldInfo, $newInfo) use($thiz) {
             if ($name == $thiz->pkgName) {
-                
+                $thiz->upgrade();
             }
         });
         
         // 启用后
         $this->onEnable(function ($name, $info) use($thiz) {
             if ($name == $thiz->pkgName) {
-                
+                $thiz->enable();
             }
         });
         
         // 禁用后
         $this->onDisable(function ($name, $info) use($thiz) {
             if ($name == $thiz->pkgName) {
-                
+                $thiz->disable();
             }
         });
     }
+    
+    /**
+     * 安装后
+     */
+    protected function install()
+    {
+        $slug = $this->slug;
+        
+        $rules = include __DIR__ . '/../resources/rules/rules.php';
+        
+        // 添加权限
+        Rule::create($rules);
+        
+        // 添加菜单
+        Menu::create($rules);
+
+        $this->assetsPublishes();
+    }
+    
+    /**
+     * 卸载后
+     */
+    protected function uninstall()
+    {
+        // 删除权限
+        Rule::delete($this->slug);
+        
+        // 删除菜单
+        Menu::delete($this->slug);
+    }
+    
+    /**
+     * 更新后
+     */
+    protected function upgrade()
+    {}
+    
+    /**
+     * 启用后
+     */
+    protected function enable()
+    {
+        // 启用权限
+        Rule::enable($this->slug);
+        
+        // 启用菜单
+        Menu::enable($this->slug);
+    }
+    
+    /**
+     * 禁用后
+     */
+    protected function disable()
+    {
+        // 禁用权限
+        Rule::disable($this->slug);
+        
+        // 禁用菜单
+        Menu::disable($this->slug);
+    }
+
 }

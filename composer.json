@@ -19,7 +19,7 @@
             "homepage": "https://github.com/deatil"
         }
     ],
-    "versions": "1.3.2",
+    "versions": "1.3.3",
     "adaptation": ">=1.3.5",
     "required": {},
     "require": {
