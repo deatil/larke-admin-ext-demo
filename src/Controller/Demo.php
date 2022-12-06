@@ -6,34 +6,37 @@ namespace Larke\Admin\Demo\Controller;
 
 use Illuminate\Http\Request;
 
+use Larke\Admin\Annotation\RouteRule;
 use Larke\Admin\Http\Controller as BaseController;
 
 /**
  * Demo 控制器
  *
- * @title Demo 控制器
- * @desc Demo 控制器
- * @order 9900
- * @auth true
- * @slug larke-admin.ext.demo
- *
  * @create 2022-2-15
  * @author deatil
  */
+#[RouteRule(
+    title: "Demo 控制器", 
+    desc:  "Demo 控制器",
+    order: 9900,
+    auth:  true,
+    slug:  "larke-admin.ext.demo"
+)]
 class Demo extends BaseController
 {
     /**
      * 列表
      *
-     * @title 数据列表
-     * @desc 数据列表
-     * @order 9901
-     * @auth true
-     * @parent larke-admin.ext.demo
-     *
      * @param  Request  $request
      * @return Response
      */
+    #[RouteRule(
+        title:  "数据列表", 
+        desc:   "数据列表",
+        order:  9901,
+        parent: "larke-admin.ext.demo",
+        auth:   true
+    )]
     public function index(Request $request)
     {
         $start = (int) $request->input('start', 0);
@@ -76,15 +79,16 @@ class Demo extends BaseController
     /**
      * 详情
      *
-     * @title 数据详情
-     * @desc 数据详情
-     * @order 9902
-     * @auth true
-     * @parent larke-admin.ext.demo
-     *
      * @param string $id
      * @return Response
      */
+    #[RouteRule(
+        title:  "数据详情", 
+        desc:   "数据详情",
+        order:  9902,
+        parent: "larke-admin.ext.demo",
+        auth:   true
+    )]
     public function detail(string $id)
     {
         if (empty($id)) {
@@ -107,15 +111,16 @@ class Demo extends BaseController
     /**
      * 删除
      *
-     * @title 数据删除
-     * @desc 数据删除
-     * @order 9903
-     * @auth true
-     * @parent larke-admin.ext.demo
-     *
      * @param string $id
      * @return Response
      */
+    #[RouteRule(
+        title:  "数据删除", 
+        desc:   "数据删除",
+        order:  9903,
+        parent: "larke-admin.ext.demo",
+        auth:   true
+    )]
     public function delete(string $id)
     {
         if (empty($id)) {

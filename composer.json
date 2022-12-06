@@ -1,6 +1,5 @@
 {
     "name": "larke/demo",
-    "title": "示例扩展",
     "description": "示例扩展描述。",
     "keywords": [
         "lake",
@@ -19,9 +18,6 @@
             "homepage": "https://github.com/deatil"
         }
     ],
-    "versions": "1.3.3",
-    "adaptation": ">=1.3.5",
-    "required": {},
     "require": {
         "php": "^8.0",
         "lake/larke-admin":"^1.3"
@@ -32,6 +28,28 @@
         }
     },
     "extra" : {
+        "larke": {
+            "title": "示例扩展",
+            "keywords": [
+                "lake",
+                "larke",
+                "demo",
+                "admin",
+                "larke-admin"
+            ],
+            "homepage": "https://github.com/deatil/larke-demo",
+            "authors": [
+                {
+                    "name": "deatil",
+                    "email": "deatil@github.com",
+                    "homepage": "https://github.com/deatil",
+                    "role": "Developer"
+                }
+            ],
+            "version": "1.1.0",
+            "adaptation": ">=1.4.0",
+            "require": {}
+        },
         "laravel" : {
             "providers" : [
                 "Larke\\Admin\\Demo\\ServiceProvider"

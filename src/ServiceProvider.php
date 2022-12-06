@@ -5,8 +5,8 @@ namespace Larke\Admin\Demo;
 use Illuminate\Support\Facades\Artisan;
 
 use Larke\Admin\Extension\Rule;
+use Larke\Admin\Extension\Menu;
 use Larke\Admin\Extension\ServiceProvider as BaseServiceProvider;
-use Larke\Admin\Frontend\Support\Menu;
 
 class ServiceProvider extends BaseServiceProvider
 {
