@@ -2,55 +2,35 @@
 
 namespace Larke\Admin\Demo;
 
+use Log;
 use Illuminate\Support\Facades\Artisan;
 
 use Larke\Admin\Extension\Rule;
 use Larke\Admin\Extension\Menu;
 use Larke\Admin\Extension\ServiceProvider as BaseServiceProvider;
 
+use function Larke\Admin\register_install_hook;
+use function Larke\Admin\register_uninstall_hook;
+use function Larke\Admin\register_upgrade_hook;
+use function Larke\Admin\register_enable_hook;
+use function Larke\Admin\register_disable_hook;
+
 class ServiceProvider extends BaseServiceProvider
 {
-    /*
-    // 扩展信息
-    protected $info = [
-        // 扩展包名
-        'name' => 'larke/demo',
-        // 扩展名称
-        'title' => '示例扩展',
-        // 扩展描述
-        'description' => '示例扩展描述',
-        // 扩展关键字
-        'keywords' => [
-            'Demo',
-            'Larke',
-            'Admin',
-            'LarkeAdmin',
-        ],
-        // 扩展主页
-        'homepage' => 'http://github.com/deatil',
-        // 作者
-        'authors' => [
-            [
-                'name' => 'deatil', 
-                'email' => 'deatil@github.com', 
-                'homepage' => 'http://github.com/deatil', 
-            ],
-        ],
-        // 版本号
-        'version' => '1.3.0',
-        // 适配系统版本
-        'adaptation' => '^1.3',
-        // 依赖扩展[选填]。用 composer.josn 时字段为 required
-        'require' => [
-            // 'vendor/package' => '1.0.*'
-        ],
-    ];
-    */
-    
     /**
      * composer
      */
     public $composer = __DIR__ . '/../composer.json';
+    
+    /**
+     * 扩展图标
+     */
+    protected $icon = __DIR__ . '/../logo.png';
+    
+    // 包名
+    protected $pkg = "larke/demo";
+    
+    protected $slug = 'larke-admin.ext.demo';
 
     /**
      * 配置[选填]
@@ -122,30 +102,29 @@ class ServiceProvider extends BaseServiceProvider
     ];
     
     /**
-     * 扩展图标
-     */
-    protected $icon = __DIR__ . '/../logo.png';
-    
-    // 包名
-    protected $pkgName = "larke/demo";
-    
-    protected $slug = 'larke-admin.ext.demo';
-    
-    /**
      * 启动
      */
     public function boot()
     {
         // 扩展注册
         $this->addExtension(
-            __CLASS__, 
-            $this->composer,
-            $this->icon,
-            $this->config
+            name:     __CLASS__, 
+            composer: $this->composer,
+            icon:     $this->icon,
+            config:   $this->config,
         );
-        
-        // 事件
-        $this->bootListeners();
+    }
+    
+    /**
+     * 在扩展安装、扩展卸载等操作时有效
+     */
+    public function action()
+    {
+        register_install_hook($this->pkg, [$this, 'install']);
+        register_uninstall_hook($this->pkg, [$this, 'uninstall']);
+        register_upgrade_hook($this->pkg, [$this, 'upgrade']);
+        register_enable_hook($this->pkg, [$this, 'enable']);
+        register_disable_hook($this->pkg, [$this, 'disable']);
     }
     
     /**
@@ -159,6 +138,8 @@ class ServiceProvider extends BaseServiceProvider
         
         // 路由
         $this->loadRoutesFrom(__DIR__ . '/../resources/route/admin.php');
+        
+        Log::info("ext demo start");
     }
     
     /**
@@ -177,49 +158,6 @@ class ServiceProvider extends BaseServiceProvider
     }
     
     /**
-     * 监听器
-     */
-    public function bootListeners()
-    {
-        $thiz = $this;
-        
-        // 安装后
-        $this->onInatll(function ($name, $info) use($thiz) {
-            if ($name == $thiz->pkgName) {
-                $thiz->install();
-            }
-        });
-        
-        // 卸载后
-        $this->onUninstall(function ($name, $info) use($thiz) {
-            if ($name == $thiz->pkgName) {
-                $thiz->uninstall();
-            }
-        });
-        
-        // 更新后
-        $this->onUpgrade(function ($name, $oldInfo, $newInfo) use($thiz) {
-            if ($name == $thiz->pkgName) {
-                $thiz->upgrade();
-            }
-        });
-        
-        // 启用后
-        $this->onEnable(function ($name, $info) use($thiz) {
-            if ($name == $thiz->pkgName) {
-                $thiz->enable();
-            }
-        });
-        
-        // 禁用后
-        $this->onDisable(function ($name, $info) use($thiz) {
-            if ($name == $thiz->pkgName) {
-                $thiz->disable();
-            }
-        });
-    }
-    
-    /**
      * 安装后
      */
     protected function install()
@@ -235,6 +173,8 @@ class ServiceProvider extends BaseServiceProvider
         Menu::create($rules);
 
         $this->assetsPublishes();
+        
+        Log::info("ext demo install");
     }
     
     /**
@@ -247,13 +187,18 @@ class ServiceProvider extends BaseServiceProvider
         
         // 删除菜单
         Menu::delete($this->slug);
+        
+        Log::info("ext demo uninstall");
     }
     
     /**
      * 更新后
      */
     protected function upgrade()
-    {}
+    {
+        
+        Log::info("ext demo upgrade");
+    }
     
     /**
      * 启用后
@@ -265,6 +210,8 @@ class ServiceProvider extends BaseServiceProvider
         
         // 启用菜单
         Menu::enable($this->slug);
+        
+        Log::info("ext demo enable");
     }
     
     /**
@@ -277,6 +224,8 @@ class ServiceProvider extends BaseServiceProvider
         
         // 禁用菜单
         Menu::disable($this->slug);
+        
+        Log::info("ext demo disable");
     }
 
 }
